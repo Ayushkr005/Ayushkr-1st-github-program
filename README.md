@@ -1,5 +1,5 @@
 # Ayushkr-1st-github-program
-Movie ticket booking system...C programming
+Basic Movie ticket booking system...C programming
 <br>
 Author-Ayush Kumar
 <br>
