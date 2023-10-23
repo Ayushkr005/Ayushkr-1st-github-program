@@ -1,0 +1,133 @@
+ONLINE MOVIE TICKET BOOKING C MINI PROJECT.
+
+PROGRAMMING:->
+
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_MOVIES 5
+#define MAX_SEATS 50
+
+struct Movie {
+    char title[100];
+    char director[50];
+    int availableSeats;
+    float price;
+};
+
+struct Ticket {
+    char movieTitle[100];
+    int numTickets;
+    float totalCost;
+};
+
+struct Movie movies[MAX_MOVIES];
+struct Ticket bookedTickets[MAX_MOVIES];
+
+int numBookedTickets = 0;
+
+// Function to initialize movie data
+void initializeMovies() {
+    for (int i = 0; i < MAX_MOVIES; i++) {
+        printf("Enter details for Movie %d:\n", i + 1);
+        printf("Title: ");
+        scanf("%s", movies[i].title);
+        printf("Director: ");
+        scanf("%s", movies[i].director);
+        printf("Available Seats: ");
+        scanf("%d", &movies[i].availableSeats);
+        printf("Price per Ticket: $");
+        scanf("%f", &movies[i].price);
+        printf("\n");
+    }
+}
+
+// Function to display the list of movies
+void displayMovies() {
+    printf("Available Movies:\n");
+    for (int i = 0; i < MAX_MOVIES; i++) {
+        printf("%d. %s (Director: %s) - Available Seats: %d - Price: $%.2f\n", i + 1, movies[i].title, movies[i].director, movies[i].availableSeats, movies[i].price);
+    }
+    printf("\n");
+}
+
+// Function to book tickets for a movie
+void bookTickets(int movieIndex, int numTickets) {
+    if (movieIndex < 0 || movieIndex >= MAX_MOVIES) {
+        printf("Invalid movie selection.\n");
+        return;
+    }
+
+    struct Movie *movie = &movies[movieIndex];
+
+    if (numTickets <= 0) {
+        printf("Invalid number of tickets.\n");
+        return;
+    }
+
+    if (numTickets > movie->availableSeats) {
+        printf("Sorry, not enough available seats for this movie.\n");
+        return;
+    }
+
+    float totalCost = numTickets * movie->price;
+    printf("Booking %d ticket(s) for %s. Total Cost: $%.2f\n", numTickets, movie->title, totalCost);
+
+    // Deduct available seats and record the booked tickets
+    movie->availableSeats -= numTickets;
+
+    strcpy(bookedTickets[numBookedTickets].movieTitle, movie->title);
+    bookedTickets[numBookedTickets].numTickets = numTickets;
+    bookedTickets[numBookedTickets].totalCost = totalCost;
+    numBookedTickets++;
+}
+
+// Function to display booked tickets
+void displayBookedTickets() {
+    printf("Booked Tickets:\n");
+    for (int i = 0; i < numBookedTickets; i++) {
+        printf("Movie: %s, Tickets: %d, Total Cost: $%.2f\n", bookedTickets[i].movieTitle, bookedTickets[i].numTickets, bookedTickets[i].totalCost);
+    }
+}
+
+int main() {
+    int choice;
+    int movieIndex;
+    int numTickets;
+
+    initializeMovies();
+
+    while (1) {
+        printf("Online Movie Ticket Booking System:\n");
+        printf("1. Display Movies\n");
+        printf("2. Book Tickets\n");
+        printf("3. Display Booked Tickets\n");
+        printf("4. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                displayMovies();
+                break;
+            case 2:
+                displayMovies();
+                printf("Enter the movie index: ");
+                scanf("%d", &movieIndex);
+                printf("Enter the number of tickets to book: ");
+                scanf("%d", &numTickets);
+                bookTickets(movieIndex - 1, numTickets);
+                break;
+            case 3:
+                displayBookedTickets();
+                break;
+            case 4:
+                printf("Thank you for using the Online Movie Ticket Booking System!\n");
+                return 0;
+            default:
+                printf("Invalid choice. Please try again.\n");
+        }
+    }
+
+    return 0;
+}
