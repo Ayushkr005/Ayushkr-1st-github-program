@@ -1,7 +1,3 @@
-ONLINE MOVIE TICKET BOOKING C MINI PROJECT.
-
-PROGRAMMING:->
-
 #include <stdio.h>
 #include <string.h>
 
